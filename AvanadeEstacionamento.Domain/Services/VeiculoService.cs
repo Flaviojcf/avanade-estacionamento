@@ -41,9 +41,30 @@ namespace AvanadeEstacionamento.Domain.Services
 
         public async Task<VeiculoModel> Create(VeiculoModel veiculo)
         {
-            await _veiculoRepository.Create(veiculo);
+            var isAlredyExistsVeiculo = await GetByPlaca(veiculo.Placa);
 
-            return veiculo;
+            if (!isAlredyExistsVeiculo)
+            {
+                await _veiculoRepository.Create(veiculo);
+
+                return veiculo;
+            }
+            else
+            {
+                throw new Exception("Falha ao criar veículo");
+            }
+        }
+
+        public async Task<bool> GetByPlaca(string placa)
+        {
+            var result = await _veiculoRepository.GetByPlaca(placa);
+
+            if (result != null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<bool> Delete(Guid id)
@@ -75,6 +96,12 @@ namespace AvanadeEstacionamento.Domain.Services
                 throw new Exception("Falha ao editar o veiculo");
             }
         }
+
+        #endregion
+
+
+        #region Private Methods
+
 
         #endregion
 

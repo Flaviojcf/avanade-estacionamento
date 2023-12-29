@@ -44,6 +44,8 @@ namespace AvanadeEstacionamento.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(EstacionamentoModel estacionamentoModel)
         {
+            if (!ModelState.IsValid) return BadRequest();
+
             var result = await _estacionamentoService.Create(estacionamentoModel);
             return Ok(result);
         }
