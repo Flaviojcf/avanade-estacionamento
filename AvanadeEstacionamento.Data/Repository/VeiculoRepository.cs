@@ -20,5 +20,11 @@ namespace AvanadeEstacionamento.Data.Repository
                                              .ToListAsync();
         }
 
+        public async Task<VeiculoModel?> GetByPlaca(string placa)
+        {
+            return await Context.VeiculoModel.AsNoTrackingWithIdentityResolution()
+                                             .FirstOrDefaultAsync(veiculo => veiculo.Placa.Equals(placa));
+        }
+
     }
 }

@@ -10,5 +10,6 @@ namespace AvanadeEstacionamento.Domain.Interfaces.Service
         Task<VeiculoModel> GetById(Guid id);
         Task<IEnumerable<VeiculoModel>> GetAll();
         Task<IEnumerable<VeiculoModel>> GetByEstacionamentoId(Guid id);
+        Task<bool> GetByPlaca(string placa);
     }
 }

@@ -5,5 +5,7 @@ namespace AvanadeEstacionamento.Domain.Interfaces.Repository
     public interface IVeiculoRepository : IBaseRepository<VeiculoModel>
     {
         Task<IEnumerable<VeiculoModel>> GetByEstacionamentoId(Guid id);
+
+        Task<VeiculoModel?> GetByPlaca(string placa);
     }
 }
