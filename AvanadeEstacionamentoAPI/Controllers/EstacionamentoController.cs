@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AvanadeEstacionamento.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/estacionamento")]
     [ApiController]
     public class EstacionamentoController : ControllerBase
     {
