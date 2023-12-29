@@ -23,6 +23,10 @@ namespace AvanadeEstacionamento.Data.Map
                    .HasForeignKey(veiculo => veiculo.EstacionamentoId)
                    .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Property(estacionamento => estacionamento.DataCriacao);
+
+            builder.Property(estacionamento => estacionamento.IsAtivo);
+
             builder.ToTable("Estacionamento");
         }
     }

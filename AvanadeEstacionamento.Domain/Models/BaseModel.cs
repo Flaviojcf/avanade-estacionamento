@@ -5,8 +5,14 @@
         protected BaseModel()
         {
             Id = Guid.NewGuid();
+            DataCriacao = DateTime.Now;
+            IsAtivo = true;
         }
 
         public Guid Id { get; set; }
+
+        public DateTime DataCriacao { get; set; }
+
+        public bool IsAtivo { get; set; }
     }
 }
