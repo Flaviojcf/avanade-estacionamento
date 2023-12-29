@@ -1,6 +1,6 @@
 ﻿using AvanadeEstacionamento.Domain.Models;
 
-namespace bank.Domain.Interfaces.Repository
+namespace AvanadeEstacionamento.Domain.Interfaces.Repository
 {
     public interface IBaseRepository<TModel> : IDisposable where TModel : BaseModel
     {
