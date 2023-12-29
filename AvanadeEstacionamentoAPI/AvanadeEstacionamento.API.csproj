@@ -19,4 +19,9 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AvanadeEstacionamento.Data\AvanadeEstacionamento.Data.csproj" />
+    <ProjectReference Include="..\AvanadeEstacionamento.Domain\AvanadeEstacionamento.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
