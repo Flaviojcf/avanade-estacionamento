@@ -6,7 +6,7 @@ namespace AvanadeEstacionamento.Domain.Models
         public string Placa { get; set; }
 
 
-        public int EstacionamentoId { get; set; }
+        public Guid EstacionamentoId { get; set; }
         public EstacionamentoModel Estacionamento { get; set; }
 
     }
