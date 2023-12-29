@@ -14,6 +14,10 @@ namespace AvanadeEstacionamento.Data.Map
                    .WithMany(estacionamento => estacionamento.VeiculoL)
                    .HasForeignKey(veiculo => veiculo.EstacionamentoId);
 
+            builder.Property(veiculo => veiculo.DataCriacao);
+
+            builder.Property(veiculo => veiculo.IsAtivo);
+
             builder.ToTable("Veiculo");
         }
     }
