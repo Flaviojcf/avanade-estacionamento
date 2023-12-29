@@ -1,8 +1,8 @@
 ﻿
 namespace AvanadeEstacionamento.Domain.Models
 {
-    public class VeiculoModel
+    public class VeiculoModel : BaseModel
     {
-        string Placa { get; set; }
+        public string Placa { get; set; }
     }
 }

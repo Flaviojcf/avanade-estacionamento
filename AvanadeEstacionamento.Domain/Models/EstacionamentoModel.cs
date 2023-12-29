@@ -1,11 +1,11 @@
 ﻿namespace AvanadeEstacionamento.Domain.Models
 {
-    public class EstacionamentoModel
+    public class EstacionamentoModel : BaseModel
     {
-        decimal PrecoInicial { get; set; }
+       public decimal PrecoInicial { get; set; }
 
-        decimal PrecoHora { get; set; }
+       public decimal PrecoHora { get; set; }
 
-        List<VeiculoModel> VeiculoL { get; set; }
+       public List<VeiculoModel> VeiculoL { get; set; }
     }
 }
