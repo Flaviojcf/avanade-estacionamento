@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace AvanadeEstacionamento.Domain.Models
 {
     public class VeiculoModel : BaseModel
@@ -7,7 +9,9 @@ namespace AvanadeEstacionamento.Domain.Models
 
 
         public Guid EstacionamentoId { get; set; }
-        public EstacionamentoModel Estacionamento { get; set; }
+
+        [JsonIgnore]
+        public EstacionamentoModel? Estacionamento { get; set; }
 
     }
 }
