@@ -27,21 +27,21 @@ namespace AvanadeEstacionamento.API.Controllers
         #region HTTP Requests
 
         [HttpGet]
-        public async Task<ActionResult> GetAll() 
+        public async Task<ActionResult> GetAll()
         {
             var result = await _veiculoService.GetAll();
             return Ok(result);
         }
 
-        [HttpGet("{id:guid}")]
-        public async Task<ActionResult> GetById(Guid id) 
+        [HttpGet("ById/{id:guid}")]
+        public async Task<ActionResult> GetById(Guid id)
         {
             var result = await _veiculoService.GetById(id);
             return Ok(result);
         }
 
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("ByEstacionamentoId/{id:guid}")]
         public async Task<ActionResult> GetByEstacionamentoId(Guid id)
         {
             var result = await _veiculoService.GetByEstacionamentoId(id);
