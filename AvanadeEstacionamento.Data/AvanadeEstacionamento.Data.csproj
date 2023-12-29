@@ -26,4 +26,8 @@
     <Folder Include="Repository\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AvanadeEstacionamento.Domain\AvanadeEstacionamento.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
