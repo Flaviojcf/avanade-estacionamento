@@ -49,8 +49,10 @@ namespace AvanadeEstacionamento.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(VeiculoModel veiculoModel)
+        public async Task<ActionResult> Create([FromBody] VeiculoModel veiculoModel)
         {
+            if (!ModelState.IsValid) return BadRequest();
+
             var result = await _veiculoService.Create(veiculoModel);
             return Ok(result);
         }
