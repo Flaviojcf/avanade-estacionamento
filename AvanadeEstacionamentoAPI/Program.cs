@@ -1,4 +1,5 @@
 
+using AvanadeEstacionamento.API.Configuration;
 using AvanadeEstacionamento.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,8 @@ namespace AvanadeEstacionamentoAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.ResolveDependencies();
 
             var app = builder.Build();
 
