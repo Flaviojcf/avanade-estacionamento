@@ -16,7 +16,11 @@ namespace AvanadeEstacionamento.Data.Map
 
             builder.Property(veiculo => veiculo.DataCriacao);
 
-            builder.Property(veiculo => veiculo.IsAtivo);
+            builder.Property(veiculo => veiculo.DataCheckout).IsRequired(false);
+
+            builder.Property(veiculo => veiculo.IsAtivo)
+                   .HasColumnType("bit")
+                   .IsRequired();
 
             builder.ToTable("Veiculo");
         }

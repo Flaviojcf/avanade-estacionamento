@@ -25,7 +25,9 @@ namespace AvanadeEstacionamento.Data.Map
 
             builder.Property(estacionamento => estacionamento.DataCriacao);
 
-            builder.Property(estacionamento => estacionamento.IsAtivo);
+            builder.Property(estacionamento => estacionamento.IsAtivo)
+                   .HasColumnType("bit")
+                   .IsRequired();
 
             builder.ToTable("Estacionamento");
         }
