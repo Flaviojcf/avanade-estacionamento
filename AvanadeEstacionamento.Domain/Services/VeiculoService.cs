@@ -11,13 +11,16 @@ namespace AvanadeEstacionamento.Domain.Services
 
         private readonly IVeiculoRepository _veiculoRepository;
 
+        private readonly IEstacionamentoRepository _estacionamentoRepository;
+
         #endregion
 
         #region Constructor
 
-        public VeiculoService(IVeiculoRepository veiculoRepository)
+        public VeiculoService(IVeiculoRepository veiculoRepository, IEstacionamentoRepository estacionamentoRepository)
         {
             _veiculoRepository = veiculoRepository;
+            _estacionamentoRepository = estacionamentoRepository;
         }
 
         #endregion
@@ -37,6 +40,21 @@ namespace AvanadeEstacionamento.Domain.Services
         public async Task<VeiculoModel> GetById(Guid id)
         {
             return await _veiculoRepository.GetById(id);
+        }
+
+        public async Task<decimal> GetDebt(Guid id)
+        {
+            var veiculoModel = await _veiculoRepository.GetById(id);
+
+            if (veiculoModel == null)
+            {
+                throw new Exception("Veículo não encontrado");
+            }
+            else
+            {
+                var debt = await CalculateDebt(veiculoModel);
+                return debt;
+            }
         }
 
         public async Task<VeiculoModel> Create(VeiculoModel veiculo)
@@ -97,11 +115,49 @@ namespace AvanadeEstacionamento.Domain.Services
             }
         }
 
-        #endregion
+        public async Task<decimal> Checkout(Guid id)
+        {
 
+            var veiculoModel = await _veiculoRepository.GetById(id);
+
+            if (veiculoModel == null)
+            {
+                throw new Exception("Veículo não encontrado");
+            }
+            else
+            {
+
+                #region Desativando veiculo
+
+                veiculoModel.IsAtivo = false;
+
+                veiculoModel.DataCheckout = DateTime.Now;
+
+                await Update(veiculoModel, id);
+
+                #endregion
+
+                var debt = await GetDebt(id);
+
+                return debt;
+            }
+
+        }
+
+        #endregion
 
         #region Private Methods
 
+        private async Task<decimal> CalculateDebt(VeiculoModel veiculoModel)
+        {
+            var currentDate = DateTime.Now;
+
+            var totalTimeSpent = (decimal)(currentDate - veiculoModel.DataCriacao).TotalHours;
+
+            var estacionamento = await _estacionamentoRepository.GetById(veiculoModel.EstacionamentoId);
+
+            return estacionamento.PrecoInicial + (estacionamento.PrecoHora * totalTimeSpent);
+        }
 
         #endregion
 
