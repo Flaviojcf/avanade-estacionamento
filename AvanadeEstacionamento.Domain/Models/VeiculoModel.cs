@@ -14,6 +14,10 @@ namespace AvanadeEstacionamento.Domain.Models
         [Required(ErrorMessage = "É preciso informar um id de estacionamento.")]
         public Guid EstacionamentoId { get; set; }
 
+
+        [JsonIgnore]
+        public DateTime? DataCheckout { get; set; }
+
         [JsonIgnore]
         public EstacionamentoModel? Estacionamento { get; set; }
 
