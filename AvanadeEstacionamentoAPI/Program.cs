@@ -1,5 +1,6 @@
 
 using AvanadeEstacionamento.API.Configuration;
+using AvanadeEstacionamento.API.Middlewares;
 using AvanadeEstacionamento.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +30,8 @@ namespace AvanadeEstacionamentoAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware(typeof(GlobalErrorHandlingMiddleware));
 
             app.UseHttpsRedirection();
 

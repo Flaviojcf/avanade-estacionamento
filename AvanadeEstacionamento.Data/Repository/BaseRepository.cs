@@ -85,7 +85,7 @@ namespace AvanadeEstacionamento.Data.Repository
         {
             var result = await DbSet.FindAsync(id);
 
-            return result ?? throw new Exception("Não encontrado");
+            return result;
         }
 
         public async Task<int> SaveChanges() => await Context.SaveChangesAsync();
