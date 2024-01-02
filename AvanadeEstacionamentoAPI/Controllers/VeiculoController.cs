@@ -61,22 +61,22 @@ namespace AvanadeEstacionamento.API.Controllers
             if (!ModelState.IsValid) return BadRequest();
 
             var result = await _veiculoService.Create(veiculoModel);
-            return Ok(result);
+            return Created("/api/veiculo", result);
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> Delete(Guid id)
         {
             var result = await _veiculoService.Delete(id);
-
             return Ok(result);
         }
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> Update(VeiculoModel veiculoModel, Guid id)
         {
-            var result = await _veiculoService.Update(veiculoModel, id);
+            if (!ModelState.IsValid) return BadRequest();
 
+            var result = await _veiculoService.Update(veiculoModel, id);
             return Ok(result);
         }
 
@@ -84,10 +84,8 @@ namespace AvanadeEstacionamento.API.Controllers
         public async Task<ActionResult> Checkout(Guid id)
         {
             var result = await _veiculoService.Checkout(id);
-
             return Ok(result);
         }
-
 
         #endregion
 
