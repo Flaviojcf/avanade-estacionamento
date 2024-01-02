@@ -10,11 +10,11 @@ namespace AvanadeEstacionamento.Domain.Validation
             Errors = new List<ErrorDetails>();
         }
 
-        public ErrorValidation(int statusCode, string message, HttpStatusCode status)
+        public ErrorValidation(string message, HttpStatusCode status)
         {
             TraceId = Guid.NewGuid().ToString();
             Errors = new List<ErrorDetails>();
-            AddError(statusCode, message, status);
+            AddError(message, status);
         }
 
         public string TraceId { get; private set; }
@@ -22,21 +22,19 @@ namespace AvanadeEstacionamento.Domain.Validation
 
         public class ErrorDetails
         {
-            public ErrorDetails(int statusCode, string message, HttpStatusCode status)
+            public string Message { get; private set; }
+            public HttpStatusCode Status { get; set; }
+
+            public ErrorDetails(string message, HttpStatusCode status)
             {
-                Logref = statusCode;
                 Message = message;
                 Status = status;
             }
-
-            public int Logref { get; private set; }
-            public string Message { get; private set; }
-            public HttpStatusCode Status { get; set; }
         }
 
-        public void AddError(int statusCode, string message, HttpStatusCode status)
+        public void AddError(string message, HttpStatusCode status)
         {
-            Errors.Add(new ErrorDetails(statusCode, message, status));
+            Errors.Add(new ErrorDetails(message, status));
         }
     }
 }

@@ -34,19 +34,27 @@ namespace AvanadeEstacionamento.API.Middlewares
 
             if (exceptionType == typeof(NotFoundException))
             {
-                errorValidation = new ErrorValidation((int)HttpStatusCode.NotFound,
-                                     $"{ex.Message} {ex?.InnerException?.Message}", HttpStatusCode.NotFound);
+                errorValidation = new ErrorValidation($"{ex.Message} {ex?.InnerException?.Message}", HttpStatusCode.NotFound);
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+            }
+            else if (exceptionType == typeof(ResourceAlreadyExistsException))
+            {
+                errorValidation = new ErrorValidation($"{ex.Message} {ex?.InnerException?.Message}", HttpStatusCode.Conflict);
+                context.Response.StatusCode = (int)HttpStatusCode.Conflict;
+            }
+            else if (exceptionType == typeof(ArgumentException))
+            {
+                errorValidation = new ErrorValidation($"{ex.Message} {ex?.InnerException?.Message}", HttpStatusCode.BadRequest);
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             }
             else
             {
-                errorValidation = new ErrorValidation((int)HttpStatusCode.InternalServerError,
-                                                     "Ocorreu um erro interno, entre em contato.", HttpStatusCode.InternalServerError);
+                errorValidation = new ErrorValidation("Ocorreu um erro interno. Entre em contato com nossa equipe para mais informações. Visite: https://github.com/Flaviojcf ", HttpStatusCode.InternalServerError);
 
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
 
-           
+
 
             var result = JsonSerializer.Serialize(errorValidation);
             context.Response.ContentType = "application/json";
