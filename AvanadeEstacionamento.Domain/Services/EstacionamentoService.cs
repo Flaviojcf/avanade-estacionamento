@@ -1,4 +1,5 @@
-﻿using AvanadeEstacionamento.API.EstacionamentoConstants;
+﻿using AutoMapper;
+using AvanadeEstacionamento.API.EstacionamentoConstants;
 using AvanadeEstacionamento.Domain.Exceptions;
 using AvanadeEstacionamento.Domain.Interfaces.Repository;
 using AvanadeEstacionamento.Domain.Interfaces.Service;
@@ -13,13 +14,16 @@ namespace AvanadeEstacionamento.Domain.Services
 
         private readonly IEstacionamentoRepository _estacionamentoRepository;
 
+        private readonly IMapper _mapper;
+
         #endregion
 
         #region Constructor
 
-        public EstacionamentoService(IEstacionamentoRepository estacionamentoRepository)
+        public EstacionamentoService(IEstacionamentoRepository estacionamentoRepository, IMapper mapper)
         {
             _estacionamentoRepository = estacionamentoRepository;
+            _mapper = mapper;
         }
 
         #endregion
