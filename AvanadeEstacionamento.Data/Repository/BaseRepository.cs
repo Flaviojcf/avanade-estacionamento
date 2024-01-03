@@ -79,7 +79,7 @@ namespace AvanadeEstacionamento.Data.Repository
             }
         }
 
-        public virtual async Task<IEnumerable<TModel>> GetAll() => await DbSet.ToListAsync();
+        public virtual async Task<IEnumerable<TModel>> GetAll() => await DbSet.Where(item => item.IsAtivo).ToListAsync();
 
         public virtual async Task<TModel> GetById(Guid id)
         {
