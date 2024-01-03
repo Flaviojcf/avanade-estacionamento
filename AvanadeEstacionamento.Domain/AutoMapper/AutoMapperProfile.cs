@@ -7,10 +7,14 @@ namespace AvanadeEstacionamento.Domain.AutoMapper
 {
     public class AutoMapperProfile : Profile
     {
-        public AutoMapperProfile() 
+        public AutoMapperProfile()
         {
             CreateMap<VeiculoModel, RequestVeiculoDTO>().ReverseMap();
+            CreateMap<VeiculoModel, RequestUpdateVeiculoDTO>().ReverseMap();
+
+
             CreateMap<EstacionamentoModel, RequestEstacionamentoDTO>().ReverseMap();
+            CreateMap<EstacionamentoModel, RequestUpdateEstacionamentoDTO>().ReverseMap();
         }
     }
 }
