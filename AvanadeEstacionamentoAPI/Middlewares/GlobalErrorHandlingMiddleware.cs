@@ -1,4 +1,5 @@
-﻿using AvanadeEstacionamento.Domain.Exceptions;
+﻿using AvanadeEstacionamento.API.EstacionamentoConstants;
+using AvanadeEstacionamento.Domain.Exceptions;
 using AvanadeEstacionamento.Domain.Validation;
 using System.Net;
 using System.Text.Json;
@@ -49,12 +50,10 @@ namespace AvanadeEstacionamento.API.Middlewares
             }
             else
             {
-                errorValidation = new ErrorValidation("Ocorreu um erro interno. Entre em contato com nossa equipe para mais informações. Visite: https://github.com/Flaviojcf ", HttpStatusCode.InternalServerError);
+                errorValidation = new ErrorValidation(AvanadeEstacionamentoConstants.GLOBAL_MESSAGE_FOR_INTERNAL_ERROR_EXCEPTION, HttpStatusCode.InternalServerError);
 
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
-
-
 
             var result = JsonSerializer.Serialize(errorValidation);
             context.Response.ContentType = "application/json";

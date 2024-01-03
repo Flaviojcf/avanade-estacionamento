@@ -37,7 +37,7 @@ namespace AvanadeEstacionamento.Domain.Services
 
                 if (result == null || result.Count() == 0)
                 {
-                    throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_NOT_FOUND_EXCEPTION);
+                    throw new NotFoundException(AvanadeEstacionamentoConstants.ANY_VEICULO_HAS_BEEN_REGISTERED_EXCEPTION);
                 }
                 return result;
             }
@@ -55,7 +55,7 @@ namespace AvanadeEstacionamento.Domain.Services
 
                 if (result == null || result.Count() == 0)
                 {
-                    throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_BY_ESTACIONAMENTO_NOT_FOUND);
+                    throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_BY_ESTACIONAMENTO_NOT_FOUND_EXCEPTION);
                 }
                 return result;
             }
@@ -119,7 +119,7 @@ namespace AvanadeEstacionamento.Domain.Services
                 }
                 else
                 {
-                    throw new ResourceAlreadyExistsException(AvanadeEstacionamentoConstants.VEICULO_BY_PLACA_ALREADY_EXISTS);
+                    throw new ResourceAlreadyExistsException(AvanadeEstacionamentoConstants.VEICULO_BY_PLACA_ALREADY_EXISTS_EXCEPTION);
                 }
             }
             catch (ResourceAlreadyExistsException ex)
@@ -153,7 +153,7 @@ namespace AvanadeEstacionamento.Domain.Services
                 }
                 else
                 {
-                    throw new Exception(AvanadeEstacionamentoConstants.VEICULO_DELETE_FAIL);
+                    throw new Exception(AvanadeEstacionamentoConstants.VEICULO_DELETE_FAIL_EXCEPTION);
                 }
             }
             catch (Exception ex)
@@ -169,7 +169,7 @@ namespace AvanadeEstacionamento.Domain.Services
             {
                 if (veiculo.Id != id)
                 {
-                    throw new ArgumentException(AvanadeEstacionamentoConstants.VEICULO_UPDATE_FAIL);
+                    throw new ArgumentException(AvanadeEstacionamentoConstants.VEICULO_UPDATE_FAIL_EXCEPTION);
                 }
                 else
                 {
