@@ -8,8 +8,7 @@ namespace AvanadeEstacionamento.Data.Map
     {
         public void Configure(EntityTypeBuilder<EstacionamentoModel> builder)
         {
-            builder.HasKey(estacionamento => estacionamento.Id)
-                   .HasName("num_guid");
+            builder.HasKey(estacionamento => estacionamento.Id);
 
             builder.Property(estacionamento => estacionamento.PrecoInicial)
                    .IsRequired()

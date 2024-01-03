@@ -4,6 +4,7 @@ using AvanadeEstacionamento.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AvanadeEstacionamento.Data.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240103015314_editColumnNames")]
+    partial class editColumnNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +51,8 @@ namespace AvanadeEstacionamento.Data.Migrations
                         .HasColumnType("decimal(18, 2)")
                         .HasColumnName("preco_inicial");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("estacionamento_guid");
 
                     b.ToTable("tb_estacionamento", (string)null);
                 });
@@ -83,7 +87,8 @@ namespace AvanadeEstacionamento.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("veiculo_guid");
 
                     b.HasIndex("EstacionamentoId");
 
@@ -95,7 +100,8 @@ namespace AvanadeEstacionamento.Data.Migrations
                     b.HasOne("AvanadeEstacionamento.Domain.Models.EstacionamentoModel", "Estacionamento")
                         .WithMany("VeiculoL")
                         .HasForeignKey("EstacionamentoId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("estacionamento_guid_fk");
 
                     b.Navigation("Estacionamento");
                 });
