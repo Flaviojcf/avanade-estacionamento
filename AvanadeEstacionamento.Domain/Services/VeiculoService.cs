@@ -204,6 +204,14 @@ namespace AvanadeEstacionamento.Domain.Services
                 }
                 else
                 {
+
+                    var isAlreadyExistsVeiculo = await GetByPlaca(veiculoDTO.Placa);
+
+                    if (isAlreadyExistsVeiculo)
+                    {
+                        throw new ResourceAlreadyExistsException(AvanadeEstacionamentoConstants.VEICULO_BY_PLACA_ALREADY_EXISTS_EXCEPTION);
+                    }
+
                     var veiculoInfo = await GetById(id);
                     var veiculoModel = _mapper.Map<VeiculoModel>(veiculoDTO);
 
@@ -225,6 +233,10 @@ namespace AvanadeEstacionamento.Domain.Services
             catch (ArgumentException ex)
             {
                 throw new ArgumentException(ex.Message);
+            }
+            catch(ResourceAlreadyExistsException ex)
+            {
+                throw;
             }
             catch (Exception ex)
             {
