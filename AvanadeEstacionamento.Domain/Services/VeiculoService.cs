@@ -1,4 +1,5 @@
-﻿using AvanadeEstacionamento.Domain.Exceptions;
+﻿using AvanadeEstacionamento.API.EstacionamentoConstants;
+using AvanadeEstacionamento.Domain.Exceptions;
 using AvanadeEstacionamento.Domain.Interfaces.Repository;
 using AvanadeEstacionamento.Domain.Interfaces.Service;
 using AvanadeEstacionamento.Domain.Models;
@@ -36,7 +37,7 @@ namespace AvanadeEstacionamento.Domain.Services
 
                 if (result == null || result.Count() == 0)
                 {
-                    throw new NotFoundException("Nenhum veículo cadastrado.");
+                    throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_NOT_FOUND_EXCEPTION);
                 }
                 return result;
             }
@@ -46,7 +47,6 @@ namespace AvanadeEstacionamento.Domain.Services
             }
         }
 
-
         public async Task<IEnumerable<VeiculoModel>> GetByEstacionamentoId(Guid id)
         {
             try
@@ -55,7 +55,7 @@ namespace AvanadeEstacionamento.Domain.Services
 
                 if (result == null || result.Count() == 0)
                 {
-                    throw new NotFoundException("Nenhum veículo vinculado a este estacionamento foi encontrado.");
+                    throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_BY_ESTACIONAMENTO_NOT_FOUND);
                 }
                 return result;
             }
@@ -73,7 +73,7 @@ namespace AvanadeEstacionamento.Domain.Services
 
                 if (result == null)
                 {
-                    throw new NotFoundException("Veículo não encontrado.");
+                    throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_NOT_FOUND_EXCEPTION);
                 }
                 return result;
             }
@@ -91,7 +91,7 @@ namespace AvanadeEstacionamento.Domain.Services
 
                 if (veiculoModel == null)
                 {
-                    throw new NotFoundException("Veículo não encontrado");
+                    throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_NOT_FOUND_EXCEPTION);
                 }
                 else
                 {
@@ -119,7 +119,7 @@ namespace AvanadeEstacionamento.Domain.Services
                 }
                 else
                 {
-                    throw new ResourceAlreadyExistsException("A placa informada já foi cadastrada, realize uma busca para verificar as informações completas do veículo.");
+                    throw new ResourceAlreadyExistsException(AvanadeEstacionamentoConstants.VEICULO_BY_PLACA_ALREADY_EXISTS);
                 }
             }
             catch (ResourceAlreadyExistsException ex)
@@ -153,7 +153,7 @@ namespace AvanadeEstacionamento.Domain.Services
                 }
                 else
                 {
-                    throw new Exception("Falha ao deletar veículo");
+                    throw new Exception(AvanadeEstacionamentoConstants.VEICULO_DELETE_FAIL);
                 }
             }
             catch (Exception ex)
@@ -169,7 +169,7 @@ namespace AvanadeEstacionamento.Domain.Services
             {
                 if (veiculo.Id != id)
                 {
-                    throw new ArgumentException("Falha ao atualizar o veículo. O ID fornecido não corresponde ao ID do veículo repassado.");
+                    throw new ArgumentException(AvanadeEstacionamentoConstants.VEICULO_UPDATE_FAIL);
                 }
                 else
                 {
@@ -205,7 +205,7 @@ namespace AvanadeEstacionamento.Domain.Services
 
                 if (veiculoModel == null)
                 {
-                    throw new NotFoundException("Veículo não encontrado");
+                    throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_NOT_FOUND_EXCEPTION);
                 }
                 else
                 {
