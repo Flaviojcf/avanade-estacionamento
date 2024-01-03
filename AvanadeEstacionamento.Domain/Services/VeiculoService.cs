@@ -1,4 +1,6 @@
-﻿using AvanadeEstacionamento.API.EstacionamentoConstants;
+﻿using AutoMapper;
+using AvanadeEstacionamento.API.EstacionamentoConstants;
+using AvanadeEstacionamento.Domain.DTO.Veiculo;
 using AvanadeEstacionamento.Domain.Exceptions;
 using AvanadeEstacionamento.Domain.Interfaces.Repository;
 using AvanadeEstacionamento.Domain.Interfaces.Service;
@@ -15,14 +17,17 @@ namespace AvanadeEstacionamento.Domain.Services
 
         private readonly IEstacionamentoRepository _estacionamentoRepository;
 
+        private readonly IMapper _mapper;
+
         #endregion
 
         #region Constructor
 
-        public VeiculoService(IVeiculoRepository veiculoRepository, IEstacionamentoRepository estacionamentoRepository)
+        public VeiculoService(IVeiculoRepository veiculoRepository, IEstacionamentoRepository estacionamentoRepository, IMapper mapper)
         {
             _veiculoRepository = veiculoRepository;
             _estacionamentoRepository = estacionamentoRepository;
+            _mapper = mapper;
         }
 
         #endregion
@@ -121,38 +126,39 @@ namespace AvanadeEstacionamento.Domain.Services
             }
         }
 
-        public async Task<VeiculoModel> Create(VeiculoModel veiculo)
+        public async Task<VeiculoModel> Create(RequestVeiculoDTO veiculoDTO)
         {
             try
             {
-                var isAlredyExistsVeiculo = await GetByPlaca(veiculo.Placa);
+                var isAlreadyExistsVeiculo = await GetByPlaca(veiculoDTO.Placa);
 
-                if (!isAlredyExistsVeiculo)
-                {
-                    var estacionamentoExists = await _estacionamentoRepository.GetById(veiculo.EstacionamentoId);
-
-                    if (estacionamentoExists != null)
-                    {
-                        await _veiculoRepository.Create(veiculo);
-                    }
-                    else
-                    {
-                        throw new NotFoundException(AvanadeEstacionamentoConstants.ESTACIONAMENTO_NOT_FOUND_EXCEPTION);
-                    }
-
-                    return veiculo;
-                }
-                else
+                if (isAlreadyExistsVeiculo)
                 {
                     throw new ResourceAlreadyExistsException(AvanadeEstacionamentoConstants.VEICULO_BY_PLACA_ALREADY_EXISTS_EXCEPTION);
                 }
-            }
-            catch (ResourceAlreadyExistsException ex)
-            {
-                throw new ResourceAlreadyExistsException(ex.Message);
-            }
 
+                var estacionamentoExists = await _estacionamentoRepository.GetById(veiculoDTO.EstacionamentoId);
+
+                if (estacionamentoExists == null)
+                {
+                    throw new NotFoundException(AvanadeEstacionamentoConstants.ESTACIONAMENTO_NOT_FOUND_EXCEPTION);
+                }
+
+                var veiculoModel = _mapper.Map<VeiculoModel>(veiculoDTO);
+                await _veiculoRepository.Create(veiculoModel);
+
+                return veiculoModel;
+            }
+            catch (ResourceAlreadyExistsException)
+            {
+                throw;
+            }
+            catch (NotFoundException)
+            {
+                throw;
+            }
         }
+
 
         public async Task<bool> GetByPlaca(string placa)
         {

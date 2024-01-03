@@ -1,4 +1,5 @@
-﻿using AvanadeEstacionamento.Domain.Interfaces.Service;
+﻿using AvanadeEstacionamento.Domain.DTO.Veiculo;
+using AvanadeEstacionamento.Domain.Interfaces.Service;
 using AvanadeEstacionamento.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,11 +57,11 @@ namespace AvanadeEstacionamento.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] VeiculoModel veiculoModel)
+        public async Task<ActionResult> Create([FromBody] RequestVeiculoDTO veiculoDTO)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var result = await _veiculoService.Create(veiculoModel);
+            var result = await _veiculoService.Create(veiculoDTO);
             return Created("/api/veiculo", result);
         }
 

@@ -1,4 +1,6 @@
-﻿using AvanadeEstacionamento.API.EstacionamentoConstants;
+﻿using AutoMapper;
+using AvanadeEstacionamento.API.EstacionamentoConstants;
+using AvanadeEstacionamento.Domain.DTO.Estacionamento;
 using AvanadeEstacionamento.Domain.Exceptions;
 using AvanadeEstacionamento.Domain.Interfaces.Repository;
 using AvanadeEstacionamento.Domain.Interfaces.Service;
@@ -13,13 +15,16 @@ namespace AvanadeEstacionamento.Domain.Services
 
         private readonly IEstacionamentoRepository _estacionamentoRepository;
 
+        private readonly IMapper _mapper;
+
         #endregion
 
         #region Constructor
 
-        public EstacionamentoService(IEstacionamentoRepository estacionamentoRepository)
+        public EstacionamentoService(IEstacionamentoRepository estacionamentoRepository, IMapper mapper)
         {
             _estacionamentoRepository = estacionamentoRepository;
+            _mapper = mapper;
         }
 
         #endregion
@@ -62,15 +67,16 @@ namespace AvanadeEstacionamento.Domain.Services
             }
         }
 
-        public async Task<EstacionamentoModel> Create(EstacionamentoModel estacionamento)
+        public async Task<EstacionamentoModel> Create(RequestEstacionamentoDTO estacionamentoDTO)
         {
             try
             {
-                var result = await _estacionamentoRepository.Create(estacionamento);
+                var estacionamentoModel = _mapper.Map<EstacionamentoModel>(estacionamentoDTO);
+                var result = await _estacionamentoRepository.Create(estacionamentoModel);
 
                 if (result)
                 {
-                    return estacionamento;
+                    return estacionamentoModel;
                 }
                 else
                 {
