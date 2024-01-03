@@ -8,28 +8,36 @@ namespace AvanadeEstacionamento.Data.Map
     {
         public void Configure(EntityTypeBuilder<EstacionamentoModel> builder)
         {
-            builder.HasKey(estacionamento => estacionamento.Id);
+            builder.HasKey(estacionamento => estacionamento.Id)
+                   .HasName("num_guid");
 
             builder.Property(estacionamento => estacionamento.PrecoInicial)
                    .IsRequired()
-                   .HasColumnType("decimal(18, 2)");
+                   .HasColumnType("decimal(18, 2)")
+                   .HasColumnName("preco_inicial");
 
             builder.Property(estacionamento => estacionamento.PrecoHora)
                    .IsRequired()
-                   .HasColumnType("decimal(18, 2)");
+                   .HasColumnType("decimal(18, 2)")
+                   .HasColumnName("preco_hora");
 
             builder.HasMany(estacionamento => estacionamento.VeiculoL)
                    .WithOne(veiculo => veiculo.Estacionamento)
                    .HasForeignKey(veiculo => veiculo.EstacionamentoId)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Property(estacionamento => estacionamento.DataCriacao);
+            builder.Property(estacionamento => estacionamento.DataCriacao)
+                   .HasColumnName("dth_cadastro");
 
             builder.Property(estacionamento => estacionamento.IsAtivo)
                    .HasColumnType("bit")
-                   .IsRequired();
+                   .IsRequired()
+                   .HasColumnName("ind_ativo");
 
-            builder.ToTable("Estacionamento");
+            builder.Property(estacionamento => estacionamento.DataAlteracao)
+                   .HasColumnName("dth_alteracao");
+
+            builder.ToTable("tb_estacionamento");
         }
     }
 }
