@@ -10,6 +10,10 @@ namespace AvanadeEstacionamento.Data.Map
         {
             builder.HasKey(estacionamento => estacionamento.Id);
 
+            builder.Property(estacionamento => estacionamento.Nome)
+                   .IsRequired()
+                   .HasColumnName("estacionamento_nome");
+
             builder.Property(estacionamento => estacionamento.PrecoInicial)
                    .IsRequired()
                    .HasColumnType("decimal(18, 2)")

@@ -13,6 +13,9 @@ namespace AvanadeEstacionamento.Domain.Models
         [Range(0.01, double.MaxValue, ErrorMessage = "O preço por hora deve ser um valor maior que zero.")]
         public decimal PrecoHora { get; set; }
 
+        [Required(ErrorMessage = "O nome do estacionamento é obrigatório.")]
+        public string Nome { get; set; }
+
         [JsonIgnore]
         public List<VeiculoModel>? VeiculoL { get; set; }
     }
