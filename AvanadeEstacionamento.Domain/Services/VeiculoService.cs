@@ -75,11 +75,19 @@ namespace AvanadeEstacionamento.Domain.Services
                 {
                     throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_NOT_FOUND_EXCEPTION);
                 }
+                else if (!result.IsAtivo)
+                {
+                    throw new AlreadyCheckoutVeiculo(AvanadeEstacionamentoConstants.VEHICLE_HAS_ALREADY_BEEN_CHECKED_OUT_EXCEPTION);
+                }
                 return result;
             }
             catch (NotFoundException ex)
             {
                 throw new NotFoundException(ex.Message);
+            }
+            catch (AlreadyCheckoutVeiculo ex)
+            {
+                throw new AlreadyCheckoutVeiculo(ex.Message);
             }
         }
 
@@ -93,6 +101,10 @@ namespace AvanadeEstacionamento.Domain.Services
                 {
                     throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_NOT_FOUND_EXCEPTION);
                 }
+                else if (!veiculoModel.IsAtivo)
+                {
+                    throw new AlreadyCheckoutVeiculo(AvanadeEstacionamentoConstants.VEHICLE_HAS_ALREADY_BEEN_CHECKED_OUT_EXCEPTION);
+                }
                 else
                 {
                     var debt = await CalculateDebt(veiculoModel);
@@ -102,6 +114,10 @@ namespace AvanadeEstacionamento.Domain.Services
             catch (NotFoundException ex)
             {
                 throw new NotFoundException(ex.Message);
+            }
+            catch (AlreadyCheckoutVeiculo ex)
+            {
+                throw new AlreadyCheckoutVeiculo(ex.Message);
             }
         }
 
@@ -217,6 +233,10 @@ namespace AvanadeEstacionamento.Domain.Services
                 {
                     throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_NOT_FOUND_EXCEPTION);
                 }
+                else if (!veiculoModel.IsAtivo)
+                {
+                    throw new AlreadyCheckoutVeiculo(AvanadeEstacionamentoConstants.VEHICLE_HAS_ALREADY_BEEN_CHECKED_OUT_EXCEPTION);
+                }
                 else
                 {
                     #region Desativando veiculo
@@ -237,6 +257,10 @@ namespace AvanadeEstacionamento.Domain.Services
             catch (NotFoundException ex)
             {
                 throw new NotFoundException(ex.Message);
+            }
+            catch (AlreadyCheckoutVeiculo ex)
+            {
+                throw new AlreadyCheckoutVeiculo(ex.Message);
             }
         }
 

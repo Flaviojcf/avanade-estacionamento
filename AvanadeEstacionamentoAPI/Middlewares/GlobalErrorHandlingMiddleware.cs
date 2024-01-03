@@ -38,7 +38,7 @@ namespace AvanadeEstacionamento.API.Middlewares
                 errorValidation = new ErrorValidation($"{ex.Message} {ex?.InnerException?.Message}", HttpStatusCode.NotFound);
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
             }
-            else if (exceptionType == typeof(ResourceAlreadyExistsException))
+            else if (exceptionType == typeof(ResourceAlreadyExistsException) || exceptionType == typeof(AlreadyCheckoutVeiculo))
             {
                 errorValidation = new ErrorValidation($"{ex.Message} {ex?.InnerException?.Message}", HttpStatusCode.Conflict);
                 context.Response.StatusCode = (int)HttpStatusCode.Conflict;
