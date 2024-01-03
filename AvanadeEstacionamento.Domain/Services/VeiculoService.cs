@@ -1,4 +1,8 @@
-﻿using AvanadeEstacionamento.Domain.Interfaces.Repository;
+﻿using AutoMapper;
+using AvanadeEstacionamento.API.EstacionamentoConstants;
+using AvanadeEstacionamento.Domain.DTO.Veiculo;
+using AvanadeEstacionamento.Domain.Exceptions;
+using AvanadeEstacionamento.Domain.Interfaces.Repository;
 using AvanadeEstacionamento.Domain.Interfaces.Service;
 using AvanadeEstacionamento.Domain.Models;
 
@@ -13,14 +17,17 @@ namespace AvanadeEstacionamento.Domain.Services
 
         private readonly IEstacionamentoRepository _estacionamentoRepository;
 
+        private readonly IMapper _mapper;
+
         #endregion
 
         #region Constructor
 
-        public VeiculoService(IVeiculoRepository veiculoRepository, IEstacionamentoRepository estacionamentoRepository)
+        public VeiculoService(IVeiculoRepository veiculoRepository, IEstacionamentoRepository estacionamentoRepository, IMapper mapper)
         {
             _veiculoRepository = veiculoRepository;
             _estacionamentoRepository = estacionamentoRepository;
+            _mapper = mapper;
         }
 
         #endregion
@@ -29,49 +36,129 @@ namespace AvanadeEstacionamento.Domain.Services
 
         public async Task<IEnumerable<VeiculoModel>> GetAll()
         {
-            return await _veiculoRepository.GetAll();
+            try
+            {
+                var result = await _veiculoRepository.GetAll();
+
+                if (result == null || result.Count() == 0)
+                {
+                    throw new NotFoundException(AvanadeEstacionamentoConstants.ANY_VEICULO_HAS_BEEN_REGISTERED_EXCEPTION);
+                }
+                return result;
+            }
+            catch (NotFoundException ex)
+            {
+                throw new NotFoundException(ex.Message);
+            }
         }
 
         public async Task<IEnumerable<VeiculoModel>> GetByEstacionamentoId(Guid id)
         {
-            return await _veiculoRepository.GetByEstacionamentoId(id);
+            try
+            {
+                var result = await _veiculoRepository.GetByEstacionamentoId(id);
+
+                if (result == null || result.Count() == 0)
+                {
+                    throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_BY_ESTACIONAMENTO_NOT_FOUND_EXCEPTION);
+                }
+                return result;
+            }
+            catch (NotFoundException ex)
+            {
+                throw new NotFoundException(ex.Message);
+            }
         }
 
         public async Task<VeiculoModel> GetById(Guid id)
         {
-            return await _veiculoRepository.GetById(id);
+            try
+            {
+                var result = await _veiculoRepository.GetById(id);
+
+                if (result == null)
+                {
+                    throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_NOT_FOUND_EXCEPTION);
+                }
+                else if (!result.IsAtivo)
+                {
+                    throw new AlreadyCheckoutVeiculo(AvanadeEstacionamentoConstants.VEHICLE_HAS_ALREADY_BEEN_CHECKED_OUT_EXCEPTION);
+                }
+                return result;
+            }
+            catch (NotFoundException ex)
+            {
+                throw new NotFoundException(ex.Message);
+            }
+            catch (AlreadyCheckoutVeiculo ex)
+            {
+                throw new AlreadyCheckoutVeiculo(ex.Message);
+            }
         }
 
         public async Task<decimal> GetDebt(Guid id)
         {
-            var veiculoModel = await _veiculoRepository.GetById(id);
+            try
+            {
+                var veiculoModel = await _veiculoRepository.GetById(id);
 
-            if (veiculoModel == null)
-            {
-                throw new Exception("Veículo não encontrado");
+                if (veiculoModel == null)
+                {
+                    throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_NOT_FOUND_EXCEPTION);
+                }
+                else if (!veiculoModel.IsAtivo)
+                {
+                    throw new AlreadyCheckoutVeiculo(AvanadeEstacionamentoConstants.VEHICLE_HAS_ALREADY_BEEN_CHECKED_OUT_EXCEPTION);
+                }
+                else
+                {
+                    var debt = await CalculateDebt(veiculoModel);
+                    return debt;
+                }
             }
-            else
+            catch (NotFoundException ex)
             {
-                var debt = await CalculateDebt(veiculoModel);
-                return debt;
+                throw new NotFoundException(ex.Message);
+            }
+            catch (AlreadyCheckoutVeiculo ex)
+            {
+                throw new AlreadyCheckoutVeiculo(ex.Message);
             }
         }
 
-        public async Task<VeiculoModel> Create(VeiculoModel veiculo)
+        public async Task<VeiculoModel> Create(RequestVeiculoDTO veiculoDTO)
         {
-            var isAlredyExistsVeiculo = await GetByPlaca(veiculo.Placa);
-
-            if (!isAlredyExistsVeiculo)
+            try
             {
-                await _veiculoRepository.Create(veiculo);
+                var isAlreadyExistsVeiculo = await GetByPlaca(veiculoDTO.Placa);
 
-                return veiculo;
+                if (isAlreadyExistsVeiculo)
+                {
+                    throw new ResourceAlreadyExistsException(AvanadeEstacionamentoConstants.VEICULO_BY_PLACA_ALREADY_EXISTS_EXCEPTION);
+                }
+
+                var estacionamentoExists = await _estacionamentoRepository.GetById(veiculoDTO.EstacionamentoId);
+
+                if (estacionamentoExists == null)
+                {
+                    throw new NotFoundException(AvanadeEstacionamentoConstants.ESTACIONAMENTO_NOT_FOUND_EXCEPTION);
+                }
+
+                var veiculoModel = _mapper.Map<VeiculoModel>(veiculoDTO);
+                await _veiculoRepository.Create(veiculoModel);
+
+                return veiculoModel;
             }
-            else
+            catch (ResourceAlreadyExistsException)
             {
-                throw new Exception("Falha ao criar veículo");
+                throw;
+            }
+            catch (NotFoundException)
+            {
+                throw;
             }
         }
+
 
         public async Task<bool> GetByPlaca(string placa)
         {
@@ -87,61 +174,105 @@ namespace AvanadeEstacionamento.Domain.Services
 
         public async Task<bool> Delete(Guid id)
         {
-            var result = await _veiculoRepository.Delete(id);
+            try
+            {
+                var result = await _veiculoRepository.Delete(id);
 
-            if (result)
-            {
-                return true;
+                if (result)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception(AvanadeEstacionamentoConstants.VEICULO_DELETE_FAIL_EXCEPTION);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                throw new Exception("Falha ao deletar veículo");
+                throw new Exception(ex.Message);
             }
+
         }
 
-        public async Task<bool> Update(VeiculoModel veiculo, Guid id)
+        public async Task<bool> Update(RequestUpdateVeiculoDTO veiculoDTO, Guid id)
         {
-            if (veiculo.Id != id) return false;
-
-            var result = await _veiculoRepository.Update(veiculo);
-
-            if (result)
+            try
             {
-                return true;
+                if (veiculoDTO.Id != id)
+                {
+                    throw new ArgumentException(AvanadeEstacionamentoConstants.VEICULO_UPDATE_FAIL_EXCEPTION);
+                }
+                else
+                {
+
+                    var isAlreadyExistsVeiculo = await GetByPlaca(veiculoDTO.Placa);
+
+                    if (isAlreadyExistsVeiculo)
+                    {
+                        throw new ResourceAlreadyExistsException(AvanadeEstacionamentoConstants.VEICULO_BY_PLACA_ALREADY_EXISTS_EXCEPTION);
+                    }
+
+                    var veiculoInfo = await GetById(id);
+                    var veiculoModel = _mapper.Map<VeiculoModel>(veiculoDTO);
+
+                    veiculoModel.DataAlteracao = DateTime.Now;
+                    veiculoModel.EstacionamentoId = veiculoInfo.EstacionamentoId;
+                    var result = await _veiculoRepository.Update(veiculoModel);
+
+                    if (result)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+
             }
-            else
+            catch (ArgumentException ex)
             {
-                throw new Exception("Falha ao editar o veiculo");
+                throw new ArgumentException(ex.Message);
             }
+            catch(ResourceAlreadyExistsException ex)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
 
-        public async Task<decimal> Checkout(Guid id)
+        public async Task<ResponseCheckoutVeiculoDTO> Checkout(Guid id)
         {
-
-            var veiculoModel = await _veiculoRepository.GetById(id);
-
-            if (veiculoModel == null)
+            try
             {
-                throw new Exception("Veículo não encontrado");
-            }
-            else
-            {
+                var veiculoModel = await GetById(id);
+
+                var debt = await GetDebt(id);
 
                 #region Desativando veiculo
 
                 veiculoModel.IsAtivo = false;
-
+                veiculoModel.DataAlteracao = DateTime.Now;
                 veiculoModel.DataCheckout = DateTime.Now;
 
-                await Update(veiculoModel, id);
+                await UpdateModel(veiculoModel, id);
 
                 #endregion
 
-                var debt = await GetDebt(id);
-
-                return debt;
+                return new ResponseCheckoutVeiculoDTO { DataCheckout = veiculoModel.DataCheckout, DataCriacao = veiculoModel.DataCriacao, TotalDebt = debt };
             }
-
+            catch (NotFoundException ex)
+            {
+                throw new NotFoundException(ex.Message);
+            }
+            catch (AlreadyCheckoutVeiculo ex)
+            {
+                throw new AlreadyCheckoutVeiculo(ex.Message);
+            }
         }
 
         #endregion
@@ -157,6 +288,39 @@ namespace AvanadeEstacionamento.Domain.Services
             var estacionamento = await _estacionamentoRepository.GetById(veiculoModel.EstacionamentoId);
 
             return estacionamento.PrecoInicial + (estacionamento.PrecoHora * totalTimeSpent);
+        }
+
+        private async Task<bool> UpdateModel(VeiculoModel veiculo, Guid id)
+        {
+            try
+            {
+                if (veiculo.Id != id)
+                {
+                    throw new ArgumentException(AvanadeEstacionamentoConstants.VEICULO_UPDATE_FAIL_EXCEPTION);
+                }
+                else
+                {
+                    var result = await _veiculoRepository.Update(veiculo);
+
+                    if (result)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
 
         #endregion

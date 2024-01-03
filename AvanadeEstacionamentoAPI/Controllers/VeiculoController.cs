@@ -1,5 +1,5 @@
-﻿using AvanadeEstacionamento.Domain.Interfaces.Service;
-using AvanadeEstacionamento.Domain.Models;
+﻿using AvanadeEstacionamento.Domain.DTO.Veiculo;
+using AvanadeEstacionamento.Domain.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AvanadeEstacionamento.API.Controllers
@@ -50,42 +50,41 @@ namespace AvanadeEstacionamento.API.Controllers
         [HttpGet("GetDebt/{id:guid}")]
         public async Task<ActionResult> GetDebt(Guid id)
         {
-            var result = await _veiculoService.GetDebt(id);
+            var result = new { Debt = await _veiculoService.GetDebt(id) };
 
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] VeiculoModel veiculoModel)
+        public async Task<ActionResult> Create([FromBody] RequestVeiculoDTO veiculoDTO)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var result = await _veiculoService.Create(veiculoModel);
-            return Ok(result);
+            var result = await _veiculoService.Create(veiculoDTO);
+            return Created("/api/veiculo", result);
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> Delete(Guid id)
         {
             var result = await _veiculoService.Delete(id);
-
             return Ok(result);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> Update(VeiculoModel veiculoModel, Guid id)
+        public async Task<ActionResult> Update(RequestUpdateVeiculoDTO veiculoDTO, Guid id)
         {
-            var result = await _veiculoService.Update(veiculoModel, id);
+            if (!ModelState.IsValid) return BadRequest();
 
+            var result = await _veiculoService.Update(veiculoDTO, id);
             return Ok(result);
         }
 
         [HttpPost("Checkout/{id:guid}")]
         public async Task<ActionResult> Checkout(Guid id)
         {
-            var result = await _veiculoService.Checkout(id);
-
-            return Ok(result);
+            ResponseCheckoutVeiculoDTO veiculoCheckoutDTO = await _veiculoService.Checkout(id);
+            return Ok(new { EntranceDate = veiculoCheckoutDTO.DataCriacao.ToString("yyyy-MM-dd HH:mm:ss"), ExitDate = veiculoCheckoutDTO.DataCheckout?.ToString("yyyy-MM-dd HH:mm:ss"), veiculoCheckoutDTO.TotalDebt });
         }
 
 

@@ -14,15 +14,23 @@ namespace AvanadeEstacionamento.Data.Map
                    .WithMany(estacionamento => estacionamento.VeiculoL)
                    .HasForeignKey(veiculo => veiculo.EstacionamentoId);
 
-            builder.Property(veiculo => veiculo.DataCriacao);
+            builder.Property(veiculo => veiculo.DataCriacao)
+                   .IsRequired()
+                   .HasColumnName("dth_cadastro");
 
-            builder.Property(veiculo => veiculo.DataCheckout).IsRequired(false);
+            builder.Property(veiculo => veiculo.DataCheckout)
+                   .IsRequired(false)
+                   .HasColumnName("dth_checkout");
 
             builder.Property(veiculo => veiculo.IsAtivo)
                    .HasColumnType("bit")
-                   .IsRequired();
+                   .IsRequired()
+                   .HasColumnName("ind_ativo");
 
-            builder.ToTable("Veiculo");
+            builder.Property(estacionamento => estacionamento.DataAlteracao)
+                   .HasColumnName("dth_alteracao");
+
+            builder.ToTable("tb_veiculo");
         }
     }
 }

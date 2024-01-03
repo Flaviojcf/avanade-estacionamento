@@ -1,5 +1,5 @@
-﻿using AvanadeEstacionamento.Domain.Interfaces.Service;
-using AvanadeEstacionamento.Domain.Models;
+﻿using AvanadeEstacionamento.Domain.DTO.Estacionamento;
+using AvanadeEstacionamento.Domain.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AvanadeEstacionamento.API.Controllers
@@ -42,11 +42,11 @@ namespace AvanadeEstacionamento.API.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Create(EstacionamentoModel estacionamentoModel)
+        public async Task<ActionResult> Create(RequestEstacionamentoDTO estacionamentoDTO)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var result = await _estacionamentoService.Create(estacionamentoModel);
+            var result = await _estacionamentoService.Create(estacionamentoDTO);
             return Ok(result);
         }
 
@@ -59,9 +59,9 @@ namespace AvanadeEstacionamento.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> Update(EstacionamentoModel estacionamentoModel, Guid id)
+        public async Task<ActionResult> Update(RequestUpdateEstacionamentoDTO estacionamentoDTO, Guid id)
         {
-            var result = await _estacionamentoService.Update(estacionamentoModel, id);
+            var result = await _estacionamentoService.Update(estacionamentoDTO, id);
 
             return Ok(result);
         }

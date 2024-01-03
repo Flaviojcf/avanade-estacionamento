@@ -4,6 +4,7 @@ using AvanadeEstacionamento.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AvanadeEstacionamento.Data.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240103014429_updateDatabase")]
+    partial class updateDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,35 +31,21 @@ namespace AvanadeEstacionamento.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("dth_alteracao");
-
                     b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("dth_cadastro");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsAtivo")
-                        .HasColumnType("bit")
-                        .HasColumnName("ind_ativo");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(max)")
-                        .HasColumnName("estacionamento_nome");
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("PrecoHora")
-                        .HasColumnType("decimal(18, 2)")
-                        .HasColumnName("preco_hora");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<decimal>("PrecoInicial")
-                        .HasColumnType("decimal(18, 2)")
-                        .HasColumnName("preco_inicial");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("tb_estacionamento", (string)null);
+                    b.ToTable("Estacionamento", (string)null);
                 });
 
             modelBuilder.Entity("AvanadeEstacionamento.Domain.Models.VeiculoModel", b =>
@@ -65,24 +54,17 @@ namespace AvanadeEstacionamento.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("dth_alteracao");
-
                     b.Property<DateTime?>("DataCheckout")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("dth_checkout");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("dth_cadastro");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("EstacionamentoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsAtivo")
-                        .HasColumnType("bit")
-                        .HasColumnName("ind_ativo");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Placa")
                         .IsRequired()
@@ -93,7 +75,7 @@ namespace AvanadeEstacionamento.Data.Migrations
 
                     b.HasIndex("EstacionamentoId");
 
-                    b.ToTable("tb_veiculo", (string)null);
+                    b.ToTable("Veiculo", (string)null);
                 });
 
             modelBuilder.Entity("AvanadeEstacionamento.Domain.Models.VeiculoModel", b =>

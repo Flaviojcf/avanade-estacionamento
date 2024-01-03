@@ -79,13 +79,13 @@ namespace AvanadeEstacionamento.Data.Repository
             }
         }
 
-        public virtual async Task<IEnumerable<TModel>> GetAll() => await DbSet.ToListAsync();
+        public virtual async Task<IEnumerable<TModel>> GetAll() => await DbSet.Where(item => item.IsAtivo).ToListAsync();
 
         public virtual async Task<TModel> GetById(Guid id)
         {
             var result = await DbSet.FindAsync(id);
 
-            return result ?? throw new Exception("Não encontrado");
+            return result;
         }
 
         public async Task<int> SaveChanges() => await Context.SaveChangesAsync();

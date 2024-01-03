@@ -4,6 +4,7 @@ using AvanadeEstacionamento.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AvanadeEstacionamento.Data.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240103014927_addnewColumns")]
+    partial class addnewColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,7 +31,7 @@ namespace AvanadeEstacionamento.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("DataAlteracao")
+                    b.Property<DateTime>("DataAlteracao")
                         .HasColumnType("datetime2")
                         .HasColumnName("dth_alteracao");
 
@@ -39,12 +42,6 @@ namespace AvanadeEstacionamento.Data.Migrations
                     b.Property<bool>("IsAtivo")
                         .HasColumnType("bit")
                         .HasColumnName("ind_ativo");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(max)")
-                        .HasColumnName("estacionamento_nome");
 
                     b.Property<decimal>("PrecoHora")
                         .HasColumnType("decimal(18, 2)")
@@ -65,7 +62,7 @@ namespace AvanadeEstacionamento.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("DataAlteracao")
+                    b.Property<DateTime>("DataAlteracao")
                         .HasColumnType("datetime2")
                         .HasColumnName("dth_alteracao");
 
