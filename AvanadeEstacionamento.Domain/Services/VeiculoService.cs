@@ -194,18 +194,22 @@ namespace AvanadeEstacionamento.Domain.Services
 
         }
 
-        public async Task<bool> Update(VeiculoModel veiculo, Guid id)
+        public async Task<bool> Update(RequestUpdateVeiculoDTO veiculoDTO, Guid id)
         {
             try
             {
-                if (veiculo.Id != id)
+                if (veiculoDTO.Id != id)
                 {
                     throw new ArgumentException(AvanadeEstacionamentoConstants.VEICULO_UPDATE_FAIL_EXCEPTION);
                 }
                 else
                 {
-                    veiculo.DataAlteracao = DateTime.Now;
-                    var result = await _veiculoRepository.Update(veiculo);
+                    var veiculoInfo = await GetById(id);
+                    var veiculoModel = _mapper.Map<VeiculoModel>(veiculoDTO);
+
+                    veiculoModel.DataAlteracao = DateTime.Now;
+                    veiculoModel.EstacionamentoId = veiculoInfo.EstacionamentoId;
+                    var result = await _veiculoRepository.Update(veiculoModel);
 
                     if (result)
                     {
@@ -229,36 +233,25 @@ namespace AvanadeEstacionamento.Domain.Services
 
         }
 
-        public async Task<decimal> Checkout(Guid id)
+        public async Task<ResponseCheckoutVeiculoDTO> Checkout(Guid id)
         {
             try
             {
-                var veiculoModel = await _veiculoRepository.GetById(id);
+                var veiculoModel = await GetById(id);
 
-                if (veiculoModel == null)
-                {
-                    throw new NotFoundException(AvanadeEstacionamentoConstants.VEICULO_NOT_FOUND_EXCEPTION);
-                }
-                else if (!veiculoModel.IsAtivo)
-                {
-                    throw new AlreadyCheckoutVeiculo(AvanadeEstacionamentoConstants.VEHICLE_HAS_ALREADY_BEEN_CHECKED_OUT_EXCEPTION);
-                }
-                else
-                {
-                    #region Desativando veiculo
+                var debt = await GetDebt(id);
 
-                    veiculoModel.IsAtivo = false;
-                    veiculoModel.DataAlteracao = DateTime.Now;
-                    veiculoModel.DataCheckout = DateTime.Now;
+                #region Desativando veiculo
 
-                    await Update(veiculoModel, id);
+                veiculoModel.IsAtivo = false;
+                veiculoModel.DataAlteracao = DateTime.Now;
+                veiculoModel.DataCheckout = DateTime.Now;
 
-                    #endregion
+                await UpdateModel(veiculoModel, id);
 
-                    var debt = await GetDebt(id);
+                #endregion
 
-                    return debt;
-                }
+                return new ResponseCheckoutVeiculoDTO { DataCheckout = veiculoModel.DataCheckout, DataCriacao = veiculoModel.DataCriacao, TotalDebt = debt };
             }
             catch (NotFoundException ex)
             {
@@ -283,6 +276,39 @@ namespace AvanadeEstacionamento.Domain.Services
             var estacionamento = await _estacionamentoRepository.GetById(veiculoModel.EstacionamentoId);
 
             return estacionamento.PrecoInicial + (estacionamento.PrecoHora * totalTimeSpent);
+        }
+
+        private async Task<bool> UpdateModel(VeiculoModel veiculo, Guid id)
+        {
+            try
+            {
+                if (veiculo.Id != id)
+                {
+                    throw new ArgumentException(AvanadeEstacionamentoConstants.VEICULO_UPDATE_FAIL_EXCEPTION);
+                }
+                else
+                {
+                    var result = await _veiculoRepository.Update(veiculo);
+
+                    if (result)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
 
         #endregion
