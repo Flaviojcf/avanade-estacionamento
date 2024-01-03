@@ -50,7 +50,7 @@ namespace AvanadeEstacionamento.API.Controllers
         [HttpGet("GetDebt/{id:guid}")]
         public async Task<ActionResult> GetDebt(Guid id)
         {
-            var result = await _veiculoService.GetDebt(id);
+            var result = new { Debt = await _veiculoService.GetDebt(id) };
 
             return Ok(result);
         }
@@ -83,9 +83,11 @@ namespace AvanadeEstacionamento.API.Controllers
         [HttpPost("Checkout/{id:guid}")]
         public async Task<ActionResult> Checkout(Guid id)
         {
-            var result = await _veiculoService.Checkout(id);
-            return Ok(result);
+            var totalDebt = await _veiculoService.Checkout(id);
+            var veiculo = await _veiculoService.GetById(id);
+            return Ok(new { EntranceDate = veiculo.DataCriacao.ToString("yyyy-MM-dd HH:mm:ss"), ExitDate = veiculo.DataCheckout?.ToString("yyyy-MM-dd HH:mm:ss"), TotalDebt = totalDebt });
         }
+
 
         #endregion
 
