@@ -31,6 +31,8 @@
 
         public const string ESTACIONAMENTO_UPDATE_FAIL_EXCEPTION = "Falha ao atualizar o estacionamento. O ID fornecido não corresponde ao ID do estacionamento repassado.";
 
+        public const string ESTACIONAMENTO_BY_NAME_ALREADY_EXISTS_EXCEPTION = "O estacionamento informado já foi cadastrado.";
+
         #endregion
 
         public const string GLOBAL_MESSAGE_FOR_INTERNAL_ERROR_EXCEPTION = "Ocorreu um erro interno. Entre em contato com nossa equipe para mais informações. Visite: https://github.com/Flaviojcf ";
