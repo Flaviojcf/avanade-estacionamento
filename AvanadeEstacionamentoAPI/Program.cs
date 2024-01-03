@@ -12,6 +12,9 @@ namespace AvanadeEstacionamentoAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Adicione configuração para ler appsettings.local.json
+            builder.Configuration.AddJsonFile("appsettings.local.json");
+
             // Add services to the container.
 
             builder.Services.AddControllers();
