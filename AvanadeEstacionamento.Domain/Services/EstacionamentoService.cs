@@ -67,10 +67,30 @@ namespace AvanadeEstacionamento.Domain.Services
             }
         }
 
+        public async Task<bool> GetByName(string name)
+        {
+            var result = await _estacionamentoRepository.GetByName(name);
+
+            if (result != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public async Task<EstacionamentoModel> Create(RequestEstacionamentoDTO estacionamentoDTO)
         {
             try
             {
+
+                var isAlreadyExistsEstacionamento = await GetByName(estacionamentoDTO.Nome);
+
+                if (isAlreadyExistsEstacionamento)
+                {
+                    throw new ResourceAlreadyExistsException(AvanadeEstacionamentoConstants.ESTACIONAMENTO_BY_NAME_ALREADY_EXISTS_EXCEPTION);
+                }
+
                 var estacionamentoModel = _mapper.Map<EstacionamentoModel>(estacionamentoDTO);
                 var result = await _estacionamentoRepository.Create(estacionamentoModel);
 
@@ -82,6 +102,10 @@ namespace AvanadeEstacionamento.Domain.Services
                 {
                     throw new Exception();
                 }
+            }
+            catch (ResourceAlreadyExistsException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -110,18 +134,20 @@ namespace AvanadeEstacionamento.Domain.Services
             }
         }
 
-        public async Task<bool> Update(EstacionamentoModel estacionamento, Guid id)
+        public async Task<bool> Update(RequestUpdateEstacionamentoDTO estacionamentoDTO, Guid id)
         {
             try
             {
-                if (estacionamento.Id != id)
+                if (estacionamentoDTO.Id != id)
                 {
                     throw new ArgumentException(AvanadeEstacionamentoConstants.ESTACIONAMENTO_UPDATE_FAIL_EXCEPTION);
                 }
                 else
                 {
-                    estacionamento.DataAlteracao = DateTime.Now;
-                    var result = await _estacionamentoRepository.Update(estacionamento);
+                    var estacionamentoModel = _mapper.Map<EstacionamentoModel>(estacionamentoDTO);
+
+                    estacionamentoModel.DataAlteracao = DateTime.Now;
+                    var result = await _estacionamentoRepository.Update(estacionamentoModel);
 
                     if (result)
                     {
