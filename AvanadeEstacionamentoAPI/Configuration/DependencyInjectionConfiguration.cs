@@ -1,5 +1,6 @@
 ﻿using AvanadeEstacionamento.Data.Context;
 using AvanadeEstacionamento.Data.Repository;
+using AvanadeEstacionamento.Domain.AutoMapper;
 using AvanadeEstacionamento.Domain.Interfaces.Repository;
 using AvanadeEstacionamento.Domain.Interfaces.Service;
 using AvanadeEstacionamento.Domain.Services;
@@ -30,6 +31,11 @@ namespace AvanadeEstacionamento.API.Configuration
 
             #endregion
 
+            #region AutoMapper Injection
+
+            services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            #endregion
 
             return services;
         }
