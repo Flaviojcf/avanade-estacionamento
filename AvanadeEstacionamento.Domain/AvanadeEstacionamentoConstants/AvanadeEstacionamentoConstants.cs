@@ -16,6 +16,8 @@
 
         public const string VEICULO_UPDATE_FAIL_EXCEPTION = "Falha ao atualizar o veículo. O ID fornecido não corresponde ao ID do veículo repassado.";
 
+        public const string VEHICLE_HAS_ALREADY_BEEN_CHECKED_OUT_EXCEPTION = "Falha ao realizar consulta, o veículo informado já realizou checkout do nosso sistema.";
+
         #endregion
 
 
