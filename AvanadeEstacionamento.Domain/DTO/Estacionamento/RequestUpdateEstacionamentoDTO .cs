@@ -2,8 +2,11 @@
 
 namespace AvanadeEstacionamento.Domain.DTO.Estacionamento
 {
-    public class RequestEstacionamentoDTO
+    public class RequestUpdateEstacionamentoDTO
     {
+
+        public Guid Id { get; set; }
+
         [Required(ErrorMessage = "O nome do estacionamento é obrigatório.")]
         public string Nome { get; set; }
 

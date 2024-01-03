@@ -1,6 +1,5 @@
 ﻿using AvanadeEstacionamento.Domain.DTO.Veiculo;
 using AvanadeEstacionamento.Domain.Interfaces.Service;
-using AvanadeEstacionamento.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AvanadeEstacionamento.API.Controllers
@@ -73,20 +72,19 @@ namespace AvanadeEstacionamento.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> Update(VeiculoModel veiculoModel, Guid id)
+        public async Task<ActionResult> Update(RequestUpdateVeiculoDTO veiculoDTO, Guid id)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var result = await _veiculoService.Update(veiculoModel, id);
+            var result = await _veiculoService.Update(veiculoDTO, id);
             return Ok(result);
         }
 
         [HttpPost("Checkout/{id:guid}")]
         public async Task<ActionResult> Checkout(Guid id)
         {
-            var totalDebt = await _veiculoService.Checkout(id);
-            var veiculo = await _veiculoService.GetById(id);
-            return Ok(new { EntranceDate = veiculo.DataCriacao.ToString("yyyy-MM-dd HH:mm:ss"), ExitDate = veiculo.DataCheckout?.ToString("yyyy-MM-dd HH:mm:ss"), TotalDebt = totalDebt });
+            ResponseCheckoutVeiculoDTO veiculoCheckoutDTO = await _veiculoService.Checkout(id);
+            return Ok(new { EntranceDate = veiculoCheckoutDTO.DataCriacao.ToString("yyyy-MM-dd HH:mm:ss"), ExitDate = veiculoCheckoutDTO.DataCheckout?.ToString("yyyy-MM-dd HH:mm:ss"), veiculoCheckoutDTO.TotalDebt });
         }
 
 
