@@ -10,7 +10,7 @@
 
         public const string VEICULO_BY_ESTACIONAMENTO_NOT_FOUND_EXCEPTION = "Nenhum veículo vinculado a este estacionamento foi encontrado.";
 
-        public const string VEICULO_BY_PLACA_ALREADY_EXISTS_EXCEPTION = "A placa informada já foi cadastrada, realize uma busca para verificar as informações completas do veículo.";
+        public const string VEICULO_BY_PLACA_ALREADY_EXISTS_EXCEPTION = "A placa informada já foi cadastrada.";
 
         public const string VEICULO_DELETE_FAIL_EXCEPTION = "Falha ao deletar veículo.";
 
