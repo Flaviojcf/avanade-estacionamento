@@ -114,6 +114,7 @@ namespace AvanadeEstacionamento.Domain.Services
                 }
                 else
                 {
+                    estacionamento.DataAlteracao = DateTime.Now;
                     var result = await _estacionamentoRepository.Update(estacionamento);
 
                     if (result)

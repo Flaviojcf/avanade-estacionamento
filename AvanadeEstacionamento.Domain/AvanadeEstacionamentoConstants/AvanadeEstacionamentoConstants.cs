@@ -21,7 +21,7 @@
 
         #region Constants for estacionamento exceptions
 
-        public const string ESTACIONAMENTO_NOT_FOUND_EXCEPTION = "Veículo não encontrado.";
+        public const string ESTACIONAMENTO_NOT_FOUND_EXCEPTION = "Estacionamento não encontrado.";
 
         public const string ANY_ESTACIONAMENTO_HAS_BEEN_REGISTERED_EXCEPTION = "Nenhum estacionamento cadastrado.";
 

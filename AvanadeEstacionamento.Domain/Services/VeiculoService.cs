@@ -113,7 +113,16 @@ namespace AvanadeEstacionamento.Domain.Services
 
                 if (!isAlredyExistsVeiculo)
                 {
-                    await _veiculoRepository.Create(veiculo);
+                    var estacionamentoExists = await _estacionamentoRepository.GetById(veiculo.EstacionamentoId);
+
+                    if (estacionamentoExists != null)
+                    {
+                        await _veiculoRepository.Create(veiculo);
+                    }
+                    else
+                    {
+                        throw new NotFoundException(AvanadeEstacionamentoConstants.ESTACIONAMENTO_NOT_FOUND_EXCEPTION);
+                    }
 
                     return veiculo;
                 }
@@ -173,6 +182,7 @@ namespace AvanadeEstacionamento.Domain.Services
                 }
                 else
                 {
+                    veiculo.DataAlteracao = DateTime.Now;
                     var result = await _veiculoRepository.Update(veiculo);
 
                     if (result)
@@ -212,7 +222,7 @@ namespace AvanadeEstacionamento.Domain.Services
                     #region Desativando veiculo
 
                     veiculoModel.IsAtivo = false;
-
+                    veiculoModel.DataAlteracao = DateTime.Now;
                     veiculoModel.DataCheckout = DateTime.Now;
 
                     await Update(veiculoModel, id);
