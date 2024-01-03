@@ -15,6 +15,7 @@ namespace AvanadeEstacionamento.Data.Map
                    .HasForeignKey(veiculo => veiculo.EstacionamentoId);
 
             builder.Property(veiculo => veiculo.DataCriacao)
+                   .IsRequired()
                    .HasColumnName("dth_cadastro");
 
             builder.Property(veiculo => veiculo.DataCheckout)

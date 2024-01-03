@@ -34,6 +34,7 @@ namespace AvanadeEstacionamento.Data.Map
                    .HasColumnName("ind_ativo");
 
             builder.Property(estacionamento => estacionamento.DataAlteracao)
+                   .IsRequired(false)
                    .HasColumnName("dth_alteracao");
 
             builder.ToTable("tb_estacionamento");
