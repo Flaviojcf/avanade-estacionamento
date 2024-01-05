@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  avanadeestacionamento.api:
+    image: ${DOCKER_REGISTRY-}avanadeestacionamentoapi
+    build:
+      context: .
+      dockerfile: AvanadeEstacionamentoAPI/Dockerfile
+    ports:
+       - "64413:80"
+       - "64412:443"
