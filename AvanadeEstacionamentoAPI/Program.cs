@@ -23,6 +23,7 @@ namespace AvanadeEstacionamentoAPI
 
             // Add services to the container.
 
+            builder.Services.AddCors();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -33,9 +34,16 @@ namespace AvanadeEstacionamentoAPI
 
             var app = builder.Build();
 
+            app.UseCors(c =>
+            {
+                c.AllowAnyOrigin();
+                c.AllowAnyMethod();
+                c.AllowAnyHeader();
+            });
+
             // Configure the HTTP request pipeline.
-                app.UseSwagger();
-                app.UseSwaggerUI();
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseMiddleware(typeof(GlobalErrorHandlingMiddleware));
 
