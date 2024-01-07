@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /AvanadeEstacionamentoAPI/appsettings.local.json
+
+
+estacionamento/AvanadeEstacionamento.Tests/TestResults/Coverage/Report
