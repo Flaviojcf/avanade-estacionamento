@@ -6,6 +6,3 @@ services:
     build:
       context: .
       dockerfile: AvanadeEstacionamentoAPI/Dockerfile
-    ports:
-       - "64413:80"
-       - "64412:443"
