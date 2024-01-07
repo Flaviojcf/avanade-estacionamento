@@ -50,6 +50,7 @@ namespace AvanadeEstacionamento.Tests
         #endregion
 
         #region Create Method
+
         [Fact(DisplayName = "Deve ser possível criar um estacionamento.")]
         public async Task Create_WithValidParameters_ReturnsEstacionamentoModel()
         {
