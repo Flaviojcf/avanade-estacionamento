@@ -10,7 +10,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Flaviojcf/estacionamento-backend">
-    <img src="./public/estacionamento-web-api.png" alt="Logo">
+    <img src="/public/estacionamento-web-api.png" alt="Logo">
   </a>
 
 
