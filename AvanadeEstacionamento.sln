@@ -13,6 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvanadeEstacionamento.Tests
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1BC8B439-174B-458E-9BF4-061E8F8488E2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "public", "public", "{E3BA12EA-1370-4F4C-AF80-FCA46D5D148E}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Downloads\estacionamento-web-api.png = ..\..\..\Downloads\estacionamento-web-api.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
