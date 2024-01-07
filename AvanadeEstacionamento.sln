@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvanadeEstacionamento.Data"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvanadeEstacionamento.Domain", "AvanadeEstacionamento.Domain\AvanadeEstacionamento.Domain.csproj", "{4CCBEEB9-CCF5-4851-A80A-9F1E7F7D3015}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvanadeEstacionamento.Tests", "AvanadeEstacionamento.Tests\AvanadeEstacionamento.Tests.csproj", "{CA4359C7-BC36-4B95-9FB7-6AC7666C2096}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4CCBEEB9-CCF5-4851-A80A-9F1E7F7D3015}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CCBEEB9-CCF5-4851-A80A-9F1E7F7D3015}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CCBEEB9-CCF5-4851-A80A-9F1E7F7D3015}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA4359C7-BC36-4B95-9FB7-6AC7666C2096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA4359C7-BC36-4B95-9FB7-6AC7666C2096}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA4359C7-BC36-4B95-9FB7-6AC7666C2096}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA4359C7-BC36-4B95-9FB7-6AC7666C2096}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
