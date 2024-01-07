@@ -25,7 +25,7 @@
 </div>
 
 
-## Screenshots
+## Design do sistema
 
 <div align="center">
     <img src="/public/simple-architecture.jpg"  >
