@@ -52,3 +52,15 @@
 Project Link: [estacionamento-web-api](https://estacionamento-web-api.azurewebsites.net/swagger/index.html)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+[contributors-shield]: https://img.shields.io/github/contributors/flaviojcf/lets-code.svg?style=for-the-badge
+[contributors-url]: https://github.com/flaviojcf/lets-code/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/flaviojcf/lets-code.svg?style=for-the-badge
+[forks-url]: https://github.com/flaviojcf/lets-code/network/members
+[stars-shield]: https://img.shields.io/github/stars/flaviojcf/lets-code.svg?style=for-the-badge
+[stars-url]: https://github.com/flaviojcf/lets-code/stargazers
+[issues-shield]: https://img.shields.io/github/issues/flaviojcf/lets-code.svg?style=for-the-badge
+[issues-url]: https://github.com/flaviojcf/lets-code/issues
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/flávio-jcosta
