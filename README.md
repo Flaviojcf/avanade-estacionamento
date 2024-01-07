@@ -28,10 +28,7 @@
 ## Screenshots
 
 <div align="center">
-    <img src="/public/lets-code01.png"  >
-    <img src="/public/lets-code02.png"  >
-    <img src="/public/lets-code03.png"  >
-    <img src="/public/lets-code04.png"  >
+    <img src="/public/simple-architecture.jpg"  >
 </div>
 
 ### Construído com as seguintes tecnologias
@@ -46,21 +43,21 @@
 - [![AutoMapper](https://img.shields.io/badge/AutoMapper-006400?style=for-the-badge&logo=AutoMapper&logoColor=white)](https://automapper.org/)
 - [![Coverlet](https://img.shields.io/badge/Coverlet-512BD4?style=for-the-badge&logo=.NET&logoColor=white)](https://coverlet.dev/)
 
-## Contact
+## Contato
 [@flavio_jCosta](mailto:flaviojcostafilho@gmail.com) - flaviojcostafilho@gmail.com
 
-Project Link: [estacionamento-web-api](https://estacionamento-web-api.azurewebsites.net/swagger/index.html)
+Link do projeto online: [estacionamento-web-api](https://estacionamento-web-api.azurewebsites.net/swagger/index.html)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">Voltar para o início</a>)</p>
 
 
-[contributors-shield]: https://img.shields.io/github/contributors/flaviojcf/lets-code.svg?style=for-the-badge
-[contributors-url]: https://github.com/flaviojcf/lets-code/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/flaviojcf/lets-code.svg?style=for-the-badge
-[forks-url]: https://github.com/flaviojcf/lets-code/network/members
-[stars-shield]: https://img.shields.io/github/stars/flaviojcf/lets-code.svg?style=for-the-badge
-[stars-url]: https://github.com/flaviojcf/lets-code/stargazers
-[issues-shield]: https://img.shields.io/github/issues/flaviojcf/lets-code.svg?style=for-the-badge
-[issues-url]: https://github.com/flaviojcf/lets-code/issues
+[contributors-shield]: https://img.shields.io/github/contributors/flaviojcf/estacionamento-backend.svg?style=for-the-badge
+[contributors-url]: https://github.com/flaviojcf/estacionamento-backend/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/flaviojcf/estacionamento-backend.svg?style=for-the-badge
+[forks-url]: https://github.com/flaviojcf/estacionamento-backend/network/members
+[stars-shield]: https://img.shields.io/github/stars/flaviojcf/estacionamento-backend.svg?style=for-the-badge
+[stars-url]: https://github.com/flaviojcf/estacionamento-backend/stargazers
+[issues-shield]: https://img.shields.io/github/issues/flaviojcf/estacionamento-backend.svg?style=for-the-badge
+[issues-url]: https://github.com/flaviojcf/estacionamento-backend/issues
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/flávio-jcosta
