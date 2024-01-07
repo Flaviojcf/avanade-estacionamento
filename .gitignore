@@ -363,6 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /AvanadeEstacionamentoAPI/appsettings.local.json
 
-**/Coverage/
 
-estacionamento/AvanadeEstacionamento.Tests/TestResults/Coverage/
+estacionamento/AvanadeEstacionamento.Tests/TestResults/Coverage/Report
